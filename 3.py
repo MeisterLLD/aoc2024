@@ -1,35 +1,29 @@
 ## P1 & P2
 with open('3','r') as f:
     texte = f.read()
-    N = len(texte)
 
-    i = 0
-    ind_deb = [ ]
-    ind_fin = [ ]
-    do =  [ ]
-    dont = [ ]
+N = len(texte)
+ind_deb, ind_fin, do, dont =[ ], [ ], [ ], [ ]
 
-    for i in range(N-4):
-        if texte[i:i+4] == 'mul(':
-            ind_deb.append(i+4)
-        if texte[i:i+4] == 'do()':
-            do.append(i+4)
-        if i <= N-7 and texte[i:i+7] == "don't()":
-            dont.append(i+7)
+for i in range(N-4):
+    if texte[i:i+4] == 'mul(':
+        ind_deb.append(i+4)
+    if texte[i:i+4] == 'do()':
+        do.append(i+4)
+    if i <= N-7 and texte[i:i+7] == "don't()":
+        dont.append(i+7)
 
-    for deb in ind_deb:
-        i = deb
-        while texte[i] != ')':
-            i += 1
-        ind_fin.append(i)
+for deb in ind_deb:
+    i = deb
+    while texte[i] != ')':
+        i += 1
+    ind_fin.append(i)
 
 from math import inf
 def shouldidoit(i, do, dont):
     maxdo = max( [x for x in do if x <= i], default= -inf   )
     maxdont = max( [x for x in dont if x <= i], default= -inf  )
     return maxdo >= maxdont
-
-
 
 P1, P2 = 0, 0
 for i in range(len(ind_deb)):
