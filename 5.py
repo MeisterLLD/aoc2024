@@ -11,9 +11,6 @@ with open('5','r') as f:
         if ',' in ligne:
             updates.append( list(map(int,ligne.split(',')))   )
 
-n = len(first)
-m = len(updates)
-
 def isvalid(update):
     return all( (update.index(first[i]) < update.index(second[i])) for i in range(len(first)) if first[i] in update and second[i] in update)
 
@@ -53,4 +50,3 @@ for w in wrong:
     w = tritopo(w, graphord)
     P2 += w[len(w)//2]
 print('Part 2 :',P2)
-
