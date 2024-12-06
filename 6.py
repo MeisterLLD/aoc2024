@@ -36,6 +36,8 @@ while isvalid(pos+dir):
 
 print('Part 1 :', len(visited))
 
+oldvisited = visited.copy()
+
 ## P2
 def get(carte, pos, dir, obs):
     npos = pos + dir
@@ -45,20 +47,21 @@ def get(carte, pos, dir, obs):
         return carte[int(npos.imag)][int(npos.real)]
 
 obstructions = set()
-for x in range(amax):
-    for y in range(bmax):
-        pos = start
-        dir = 0+1j
-        obs = complex(x,y)
-        states = set([(start, dir)])
-        visited = set([start])
-        while (pos+dir, dir) not in states and isvalid(pos+dir):
-            if get(carte,pos,dir,obs) in '.^':
-                pos = pos + dir
-                visited.add(pos)
-                states.add((pos,dir))
-            elif get(carte,pos,dir,obs) == '#':
-                dir = dir*(-1j)
-        if (pos+dir, dir) in states:
-            obstructions.add(obs)
+
+possibleobs = [ (int(p.real), int(p.imag)) for p in oldvisited]
+for (x,y) in possibleobs:
+    pos = start
+    dir = 0+1j
+    obs = complex(x,y)
+    states = set([(start, dir)])
+    visited = set([start])
+    while (pos+dir, dir) not in states and isvalid(pos+dir):
+        if get(carte,pos,dir,obs) in '.^':
+            pos = pos + dir
+            visited.add(pos)
+            states.add((pos,dir))
+        elif get(carte,pos,dir,obs) == '#':
+            dir = dir*(-1j)
+    if (pos+dir, dir) in states:
+        obstructions.add(obs)
 print('Part 2 :', len(obstructions))
