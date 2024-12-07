@@ -11,20 +11,22 @@ with open('7','r') as f:
 
 n = len(tots)
 
-def explore(L, start, S):
+def explore(L, start, S, obj):
+    if start is not None and start > obj:
+        return
     if L == [ ]:
         S.add(start)
     else:
         if start == None:
-            explore(L[1::], L[0], S)
+            explore(L[1::], L[0], S, obj)
         else:
-            explore(L[1::], start * L[0],S)
-            explore(L[1::], start + L[0],S)
+            explore(L[1::], start * L[0],S, obj)
+            explore(L[1::], start + L[0],S, obj)
 
 P1 = 0
 for i in range(n):
     S = set()
-    explore(nums[i], None, S)
+    explore(nums[i], None, S, tots[i])
     if tots[i] in S:
         P1 += tots[i]
 print('Part 1 :', P1)
@@ -35,7 +37,7 @@ def cat(n,m):
 
 def explore2(L, start, S, obj):
     if start is not None and start > obj:
-        return 
+        return
     if L == [ ]:
         S.add(start)
     else:
