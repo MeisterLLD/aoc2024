@@ -1,6 +1,6 @@
+
 ## P1
 ligne = open('9','r').read().split('\n')[0]
-#ligne = '2333133121414131402'
 
 seq = [ ]
 file = True
@@ -15,10 +15,9 @@ for c in ligne:
         id += 1
     file = not file
 
-M = len(seq)-seq.count('.')
+M = len(seq) - seq.count('.')
 s = 0
 endind = len(seq)-1
-
 i = 0
 while i < M:
     if seq[i] != '.':
@@ -43,7 +42,6 @@ while i < n:
         i += 1
     long = 0
     j = i
-
     if i < n:
         while j < n and seq[j] == '.':
             long += 1
@@ -51,18 +49,17 @@ while i < n:
         freeblocks.append([i,long])
         i += long
 
-
-
 end = len(seq)-1
 for file in range(id-1,-1,-1):
 
-    # Recherche du bloc à droite
+    # Recherche du bloc file
     while seq[end] != file:
         end -= 1
     debblock = end
     while seq[debblock] == file:
         debblock -= 1
-    tailleblock = end-debblock
+    debblock += 1
+    tailleblock = end-debblock+1
 
     # Recherche d'une place libre
     for i,(pos, size) in enumerate(freeblocks):
@@ -75,13 +72,8 @@ for file in range(id-1,-1,-1):
             else:
                 freeblocks[i][0] += tailleblock
                 freeblocks[i][1] -= tailleblock
-
             break
 
     end -= tailleblock
 
 print('Part 2 :', sum([i*seq[i] for i in range(len(seq)) if seq[i] != '.']))
-
-
-
-
