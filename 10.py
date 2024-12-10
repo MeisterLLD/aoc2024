@@ -62,7 +62,8 @@ for root in departs:
     d = distlarg(root)
     for target,dist in d.items():
         if dist == 9:
-            N += len(list(DFS(root,target,{root},[root])))
+            for _ in DFS(root,target,{root},[root]):
+                N += 1
 
 print('Part 2 :', N)
 
