@@ -15,8 +15,10 @@ def howmanynewstones(steps, stone):
     n = len(c)
     if n % 2 == 0:
         s1, s2 = int(c[:n//2]), int(c[n//2:])
-        dico[(steps, stone)] = howmanynewstones(steps-1, s1) + howmanynewstones(steps-1, s2)
-        return howmanynewstones(steps-1, s1) + howmanynewstones(steps-1, s2)
+
+        total = howmanynewstones(steps-1, s1) + howmanynewstones(steps-1, s2)
+        dico[(steps, stone)] = total
+        return total
 
     return howmanynewstones(steps-1, 2024*stone)
 
