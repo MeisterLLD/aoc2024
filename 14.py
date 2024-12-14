@@ -49,12 +49,14 @@ while True:
     updaterobots(1)
     liste = [robots[i][0] for i in range(len(robots))]
     ensemble = set(liste)
+    # on parie sur le fait que la frame du sapin est la seule injective
     if len(liste) == len(ensemble):
         break
 
 print('Part 2 :', i)
 
-
+## Animation for fun
+## Animation for fun
 # import matplotlib.pyplot as plt
 # import matplotlib.animation as animation
 #
