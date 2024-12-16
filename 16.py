@@ -1,9 +1,6 @@
 from collections import defaultdict
 from math import inf
 from heapq import heappop, heappush
-from time import time
-S = time()
-
 
 carte = { }
 with open('16','r') as f:
