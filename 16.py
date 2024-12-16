@@ -24,7 +24,8 @@ def isvalid(pos):
     return 0 <= int(pos.real) < xmax and 0 <= int(pos.imag) < ymax and carte[pos] == '.'
 
 def voisins(state):
-    ''' returns a a list of tuples (cost, neighbor)'''
+    ''' returns a list of tuples (cost, neighbor)
+    Graph nodes are tuples of complex numbers (pos, dir) '''
     pos, dir, = state
     vois = []
     for newdir in [dir, 1j*dir, -1j*dir]: # turns
@@ -36,9 +37,9 @@ def voisins(state):
 
 # Modified dijkstra on a graph of states : (pos, dir) (except the ending one)
 # Careful, 1j is *down* and -1j is *up*
-debut = (start, 1)
 
-def dijkstra2(debut, fin):
+def dijkstra2(debut, end):
+    ''' debut is a graph node (pos, dir) but fin is just the ending *pos* '''
     q = [(0, 0, debut)]
     dists = {debut: 0}
     predecessors = defaultdict(set)
@@ -48,28 +49,28 @@ def dijkstra2(debut, fin):
         dist, _, state = heappop(q)
         pos, dir = state
 
-        if pos == fin:
+        if pos == end:
             return dir, dist, predecessors
 
         for (cost, v) in voisins(state):
-            if dist + cost < dists.get(v,inf):
+            if dist + cost <= dists.get(v,inf):
                 counter += 1
                 dists[v] = dist + cost
-                predecessors[v] = {state}
-                heappush(q, (dist + cost, counter, v))
-            elif dist + cost == dists.get(v,inf):
-                counter += 1
-                dists[v] = dist + cost
-                predecessors[v].add(state)
+                if dist + cost < dists.get(v,inf):
+                    predecessors[v] = {state}
+                else:
+                    predecessors[v].add(state)
                 heappush(q, (dist + cost, counter, v))
 
 def getpreds(pos):
     if pos == debut:
-        return set( )
+        return set()
     else:
         peres = predecessors[pos]
-        return peres.union(*[getpreds(p) for p in predecessors[pos]   ])
+        return peres.union(*[getpreds(p) for p in predecessors[pos]])
 
+debut = (start, 1)
 dir, dist, predecessors = dijkstra2(debut, end)
+tiles = set([x[0] for x in getpreds((end, dir))]).union(set([end]))
 print('Part 1 :', dist)
-print('Part 2 :', 1+len( set([x[0] for x in getpreds((end, dir))] )    ))
+print('Part 2 :', len(tiles))
