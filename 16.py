@@ -1,6 +1,8 @@
 from collections import defaultdict
 from math import inf
 from heapq import heappop, heappush
+from time import time
+S = time()
 
 
 carte = { }
@@ -35,18 +37,16 @@ def voisins(state):
     return vois
 
 
-# Modified dijkstra on a graph of states : (pos, dir)
+# Modified dijkstra on a graph of states : (pos, dir) (except the ending one)
 # Careful, 1j is *down* and -1j is *up*
 debut = (start, 1)
 fin = end
 
 def dijkstra2(debut, fin):
     q = [(0, 0, debut)]
-    dists = { }
-    dists[debut] = 0
+    dists = {debut: 0}
     predecessors = defaultdict(set)
     counter = 0
-    ensP2 = set()
 
     while len(q) > 0:
         dist, _, state = heappop(q)
@@ -54,13 +54,6 @@ def dijkstra2(debut, fin):
 
         if pos == fin:
             return dist, predecessors
-
-        if dist > dists.get(fin, inf):
-            break
-
-        if dist > dists.get(state, inf):
-            continue
-
 
         for (cost, v) in voisins(state):
             if dist + cost <= dists.get(v,inf): # notice the ≤
@@ -70,7 +63,6 @@ def dijkstra2(debut, fin):
                     predecessors[end].add(state)
                 else:
                     predecessors[v].add(state)
-
                 heappush(q, (dist + cost, counter, v))
 
 def getpreds(pos):
@@ -79,7 +71,6 @@ def getpreds(pos):
     else:
         peres = predecessors[pos]
         return peres.union(*[getpreds(p) for p in predecessors[pos]   ])
-
 
 dist, predecessors = dijkstra2(debut, fin)
 print('Part 1 :', dist)
