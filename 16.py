@@ -40,7 +40,6 @@ def voisins(state):
 # Modified dijkstra on a graph of states : (pos, dir) (except the ending one)
 # Careful, 1j is *down* and -1j is *up*
 debut = (start, 1)
-fin = end
 
 def dijkstra2(debut, fin):
     q = [(0, 0, debut)]
@@ -53,16 +52,13 @@ def dijkstra2(debut, fin):
         pos, dir = state
 
         if pos == fin:
-            return dist, predecessors
+            return dir, dist, predecessors
 
         for (cost, v) in voisins(state):
             if dist + cost <= dists.get(v,inf): # notice the ≤
                 counter += 1
                 dists[v] = dist + cost
-                if v[0] == end:
-                    predecessors[end].add(state)
-                else:
-                    predecessors[v].add(state)
+                predecessors[v].add(state)
                 heappush(q, (dist + cost, counter, v))
 
 def getpreds(pos):
@@ -72,6 +68,6 @@ def getpreds(pos):
         peres = predecessors[pos]
         return peres.union(*[getpreds(p) for p in predecessors[pos]   ])
 
-dist, predecessors = dijkstra2(debut, fin)
+dir, dist, predecessors = dijkstra2(debut, end)
 print('Part 1 :', dist)
-print('Part 2 :', 1+len( set([x[0] for x in getpreds(fin)] )    ))
+print('Part 2 :', 1+len( set([x[0] for x in getpreds((end, dir))] )    ))
