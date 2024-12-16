@@ -52,7 +52,12 @@ def dijkstra2(debut, fin):
             return dir, dist, predecessors
 
         for (cost, v) in voisins(state):
-            if dist + cost <= dists.get(v,inf): # notice the ≤
+            if dist + cost < dists.get(v,inf):
+                counter += 1
+                dists[v] = dist + cost
+                predecessors[v] = {state}
+                heappush(q, (dist + cost, counter, v))
+            elif dist + cost == dists.get(v,inf):
                 counter += 1
                 dists[v] = dist + cost
                 predecessors[v].add(state)
