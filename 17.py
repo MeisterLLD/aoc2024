@@ -61,10 +61,11 @@ print('Part 1 :', output)
 
 ## P2
 ''' I have no idea why this works. At first it seems that the first octal digit
-of A can last digit of the output, the second of A the second-to-last of the
-output and so on... But weirdly at some point you need to increment A more than
-just the current digit, so you modify A's *previous* digits you computed.
-Nonetheless it works. I can't see the logic in here, it's purely heuristic  '''
+of A can give you last digit of the output, the second of A the second-to-last
+of the output and so on... But weirdly at some point you need to increment A
+more than just the current digit, so you modify A's *previous* digits you
+computed. Nonetheless it works. I can't see the logic in here, it's purely
+heuristic  '''
 N = 1
 A = 0
 while N <= 16:
