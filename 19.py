@@ -24,8 +24,8 @@ def howmanyways(design, patterns):
     dico2[design] = add
     return dico2[design]
 
-total = sum([howmanyways(design, patterns) for design in designs])
-doable = len(set([k for k in dico2 if dico2[k] > 0]).intersection(designs))
+H = [howmanyways(design, patterns) for design in designs]
+doable = sum([h>0 for h in H])
+total = sum(H)
 print('Part 1 :', doable)
 print('Part 2 :', total)
-
