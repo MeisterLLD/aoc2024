@@ -7,8 +7,7 @@ with open('19', 'r') as f:
         designs.append(design)
 
 
-dico = { }
-def doable(design, patterns):
+def doable(design, patterns, dico):
     if design in dico:
         return dico[design]
 
@@ -19,20 +18,17 @@ def doable(design, patterns):
         T = len(pattern)
         if design[:T] == pattern:
             rest = design[T:]
-            if doable(rest, patterns):
+            if doable(rest, patterns, dico):
                 dico[design] = True
                 return True
 
     dico[design] = False
     return False
 
-print('Part 1 :', sum([doable(design, patterns) for design in designs]))
+print('Part 1 :', sum([doable(design, patterns, {}) for design in designs]))
 
 ## P2
-from collections import defaultdict
-dico2 = {}
-
-def howmanyways(design, patterns):
+def howmanyways(design, patterns, dico2):
 
     if design in dico2:
         return dico2[design]
@@ -45,12 +41,9 @@ def howmanyways(design, patterns):
         T = len(pattern)
         if design[:T] == pattern:
             rest = design[T:]
-            add += howmanyways(rest, patterns)
+            add += howmanyways(rest, patterns, dico2)
 
     dico2[design] = add
     return dico2[design]
 
-print('Part 2 :', sum([howmanyways(design, patterns ) for design in designs]))
-
-
-
+print('Part 2 :', sum([howmanyways(design, patterns, { }) for design in designs]))
