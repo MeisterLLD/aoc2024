@@ -42,8 +42,10 @@ for n in numbers:
         if (n,seq) not in price:
             price[(n,seq)] = digits[n][j+4]
 
+seqs = set(k[1] for k in price)
+
 P2 = 0
-for seq in product(range(-9,10), repeat=4):
+for seq in seqs:
     curprice = 0
     for n in numbers:
         curprice += price.get((n, seq), 0)
